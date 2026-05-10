@@ -1,17 +1,15 @@
 import { Outlet } from 'react-router'
-import Footer from './Footer'
 import Header from './Header'
+import Footer from './Footer'
 
-const Layout = () => {
-  return (
-    <div className="app-shell">
-      <Header />
-      <main className="app-main">
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
-  )
-}
+const Layout = () => (
+  <div style={{ display:'flex', flexDirection:'column', minHeight:'100vh', background:'var(--bg)' }}>
+    <Header />
+    <main style={{ flex:1, display:'flex', justifyContent:'center', padding:'3rem 1.25rem 5rem' }}>
+      <Outlet />
+    </main>
+    <Footer />
+  </div>
+)
 
 export default Layout

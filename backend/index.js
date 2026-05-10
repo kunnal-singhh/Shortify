@@ -1,12 +1,13 @@
 const express=require("express");
 const app=express();
-const PORT=8001;
+
 const cors=require('cors')
 const urlRoute=require('./routes/url');
 const {connectToMongoDB} =require('./connect');
 const dotenv=require('dotenv').config()    
  
-app.use(cors({origin:'http://localhost:5173'}))
+const PORT = process.env.PORT;
+app.use(cors({origin:process.env.CLIENT_URL ||  'http://localhost:5173'}))   
 connectToMongoDB(process.env.MONGO_URL)
 .then(()=> console.log("Mongo DB connected"));
 app.use(express.json()); 
