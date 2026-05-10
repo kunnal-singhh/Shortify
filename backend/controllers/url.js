@@ -13,6 +13,21 @@ await URL.create({
 return res.json({id:shortID});
 }
 
+async function handleGetAllUrls(req,res){
+    const urls = await URL.find({}).sort({ createdAt: -1 });
+
+    return res.json({
+        urls: urls.map((url) => ({
+            id: url._id,
+            shortId: url.shortId,
+            redirectURL: url.redirectURL,
+            shortURL: `${req.protocol}://${req.get("host")}/url/${url.shortId}`,
+            totalClicks: url.visitHistory.length,
+            createdAt: url.createdAt,
+        })),
+    });
+}
+
  async function handleVisitHistory(req,res){ 
     const shortID=req.params.shortID;
   const entry=  await URL.findOneAndUpdate(
@@ -43,5 +58,5 @@ async function handleGetAnalytics(req,res){
     });
 }
 module.exports={ 
-    handleGenerateNewShortURL,handleGetAnalytics,handleVisitHistory
+    handleGenerateNewShortURL,handleGetAllUrls,handleGetAnalytics,handleVisitHistory
 }
