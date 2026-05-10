@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001/url'
+const API_URL = import.meta.env.VITE_API_URL //|| 'http://localhost:8001/url'
 
 const Urls = () => {
   const [urls, setUrls] = useState([])
