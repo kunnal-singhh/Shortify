@@ -43,7 +43,7 @@ async function handleGetAllUrls(req,res){
          
         }
     );
-    if (!entry) return res.status(404).json({ error: "URL not found" });
+    if (!entry) return res.status(404).json({ error: "Short URL not found" });
     res.redirect(entry.redirectURL);
  }
 
@@ -51,7 +51,7 @@ async function handleGetAllUrls(req,res){
 async function handleGetAnalytics(req,res){ 
     const shortID=req.params.shortID;
     const result =await URL.findOne({shortId:shortID});
-      if (!result) return res.status(404).json({ error: "URL not found" });
+      if (!result) return res.status(404).json({ error: "Short URL not found" });
     return res.json({ 
         totalClicks:result.visitHistory.length,
         analytics:result.visitHistory,
