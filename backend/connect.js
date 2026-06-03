@@ -5,4 +5,5 @@ async function connectToMongoDB(url){
         dbName:"short-url"
     });
 }
+
 module.exports={connectToMongoDB};

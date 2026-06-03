@@ -153,10 +153,17 @@ const Urls = () => {
           border-radius: var(--r8); font-size: 0.82rem; color: var(--err); font-weight: 500;
         }
 
-        /* Scroll wrapper — horizontal scroll on small screens */
+        /* Scroll wrapper — horizontal and vertical scroll on small screens */
         .tbl-scroll {
           overflow-x: auto;
+          overflow-y: auto;
           -webkit-overflow-scrolling: touch;
+        }
+        @media (max-width: 760px) {
+          .tbl-scroll {
+            max-height: 62vh;
+            min-height: 220px;
+          }
         }
         /* Subtle scrollbar for the table on mobile */
         .tbl-scroll::-webkit-scrollbar { height: 4px; }
