@@ -15,7 +15,7 @@ return res.json({id:shortID});
 
 async function handleGetAllUrls(req,res){
     const urls = await URL.find({}).sort({ createdAt: -1 });
-
+    
     return res.json({
         urls: urls.map((url) => ({
             id: url._id,
