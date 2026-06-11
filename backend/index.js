@@ -10,6 +10,7 @@ const PORT = process.env.PORT;
 app.use(cors({origin:process.env.CLIENT_URL })) 
 connectToMongoDB(process.env.MONGO_URL)
 .then(()=> console.log("Mongo DB connected"));
+
 app.use(express.json()); 
 app.use("/",urlRoute);
 
