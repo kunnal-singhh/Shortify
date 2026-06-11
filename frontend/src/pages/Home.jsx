@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react'
 import { Link } from 'react-router'
 
-const API_URL = import.meta.env.VITE_API_URL// || 'http://localhost:8001/url'
+const API_URL = import.meta.env.VITE_API_URL
 
 const Home = () => {
   const [longUrl, setLongUrl] = useState('')
@@ -11,23 +11,36 @@ const Home = () => {
   const [error, setError] = useState('')
   const urlRef = useRef(null)
 
-  // ── ORIGINAL BACKEND LOGIC — untouched ──────────────────────────────────────
+ 
   async function shortenUrl(event) {
     event.preventDefault()
     if (!longUrl.trim()) { setError('Enter a URL before shortening.'); return }
+
+  try {
+      const parsedUrl = new URL(longUrl.trim());
+      if (!['http:', 'https:'].includes(parsedUrl.protocol) || !parsedUrl.hostname.includes('.')) {
+        throw new Error('Invalid protocol or domain');
+      }
+    } catch (err) {
+      setError('Invalid URL format. Please enter a valid HTTP/HTTPS link.');
+      return; 
+    }
+
     setLoading(true); setError(''); setCopied(false)
+    
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(`${API_URL}/shorten`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: longUrl.trim() }),
       })
-      if (!response.ok) throw new Error('Network response was not ok')
-      const data = await response.json()
+      let data;
+      try { data = await response.json(); } catch(e){}
+      if (!response.ok) throw new Error(data?.error || 'Server error occurred')
       setShortUrl(`${API_URL}/${data.id}`)
     } catch (err) {
       console.error('Fetch error:', err)
-      setError('Could not shorten the URL. Check that the backend server is running.')
+      setError(err.message === 'Failed to fetch' ? 'Backend server unreachable. Is it running?' : err.message)
     } finally {
       setLoading(false)
     }
@@ -40,7 +53,7 @@ const Home = () => {
     setCopied(true)
     setTimeout(() => setCopied(false), 1800)
   }, [shortUrl])
-  // ── END BACKEND LOGIC ────────────────────────────────────────────────────────
+ 
 
   return (
     <>
@@ -337,7 +350,7 @@ const Home = () => {
 
       <div className="home">
 
-        {/* Hero */}
+      
         <div className="hero">
           <div className="hero-eyebrow">
             <span className="hero-eyebrow-line" />
@@ -411,7 +424,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Result card — always visible */}
+        {/* Result card */}
         <div className="card delay-2">
           <div className="card-head">
             <div className="card-head-left">

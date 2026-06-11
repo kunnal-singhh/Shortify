@@ -9,11 +9,11 @@ const Urls = () => {
   const [error, setError]     = useState('')
   const [copiedId, setCopiedId] = useState('')
 
-  // ── BACKEND LOGIC — untouched ────────────────────────────────────────────────
+ 
   const fetchUrls = useCallback(async () => {
     setLoading(true); setError('')
     try {
-      const response = await fetch(API_URL)
+      const response = await fetch(`${API_URL}/urls`)
       if (!response.ok) throw new Error('Unable to load links')
       const data = await response.json()
       setUrls(Array.isArray(data.urls) ? data.urls : [])
@@ -27,7 +27,7 @@ const Urls = () => {
 
   useEffect(() => {
     let ignore = false
-    fetch(API_URL)
+    fetch(`${API_URL}/urls`)
       .then((r) => { if (!r.ok) throw new Error('Unable to load links'); return r.json() })
       .then((data) => { if (!ignore) setUrls(Array.isArray(data.urls) ? data.urls : []) })
       .catch((err) => { if (!ignore) { console.error('Fetch URLs error:', err); setError('Could not load your links. Check that the backend server is running.') } })
@@ -44,10 +44,10 @@ const Urls = () => {
   const markClicked = (shortId) => {
     setUrls((cur) => cur.map((u) => u.shortId === shortId ? { ...u, totalClicks: Number(u.totalClicks || 0) + 1 } : u))
     setTimeout(() => {
-      fetch(API_URL).then((r) => r.json()).then((data) => { if (Array.isArray(data.urls)) setUrls(data.urls) }).catch(() => {})
+      fetch(`${API_URL}/urls`).then((r) => r.json()).then((data) => { if (Array.isArray(data.urls)) setUrls(data.urls) }).catch(() => {})
     }, 800)
   }
-  // ── END BACKEND LOGIC ────────────────────────────────────────────────────────
+ 
 
   const totalClicks = urls.reduce((s, u) => s + Number(u.totalClicks || 0), 0)
   const topUrl = urls.length ? [...urls].sort((a, b) => Number(b.totalClicks || 0) - Number(a.totalClicks || 0))[0] : null
