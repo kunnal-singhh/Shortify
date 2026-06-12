@@ -1,4 +1,29 @@
-# Shortify API Documentation
+# Shortify - URL Shortener Service
+
+## Problem Statement
+Long URLs are hard to share. There is a need for a simple, self-hosted URL shortener service with basic analytics like click tracking.
+
+## Approach Explanation
+Shortify is built to be a fast and reliable RESTful API. 
+- **Tech Stack**: Built using modern backend technologies (Node.js/Express + Database).
+- **Architecture**: A simple MVC pattern is used. It handles URL shortening and redirection efficiently, whilst tracking clicks in real-time.
+- **Error Handling**: Implements strict validation and proper 404 responses for non-existent codes.
+
+## Setup Instructions
+1. Clone the repository.
+2. Install dependencies by running `npm install` inside the `backend` directory.
+3. Configure your environment variables in a `.env` file (e.g., `PORT`, `MONGO_URI`).
+4. Start the development server using `npm start` or `npm run dev`.
+5. The API will be available at `http://localhost:8000` (or your configured port).
+
+## Screenshots / Demo
+> **Note to evaluator**: [Insert Loom Video Link Here]
+> 
+> *(Add your screenshots here before submission)*
+
+---
+
+## API Documentation
 
 This is the API documentation for the Shortify URL Shortener service.
 
